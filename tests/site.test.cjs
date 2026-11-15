@@ -215,7 +215,9 @@ describe("navigation", () => {
     assert.equal(await toggle.getAttribute("aria-expanded"), "true");
     await page.waitForSelector("#mobile-menu.is-open");
     assert.ok(await page.evaluate(() => document.body.classList.contains("menu-open")));
+    assert.ok(await page.evaluate(() => document.querySelector("main").inert), "page behind the menu is inert");
     await page.keyboard.press("Escape");
+    assert.equal(await page.evaluate(() => document.querySelector("main").inert), false);
     assert.equal(await toggle.getAttribute("aria-expanded"), "false");
     await page.waitForFunction(() => document.getElementById("mobile-menu").hidden);
     await toggle.click();

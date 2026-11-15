@@ -103,6 +103,7 @@
       toggle.setAttribute("aria-expanded", String(state));
       if (label) label.textContent = state ? "Close menu" : "Open menu";
       document.body.classList.toggle("menu-open", state);
+      $$("main, .site-footer, .call-bar").forEach(function (el) { el.inert = state; });
       header.classList.toggle("is-solid", state || window.scrollY > 24);
       if (state) {
         menu.hidden = false;
@@ -168,6 +169,7 @@
     var btn = $("#hero-video-toggle");
     if (!video || !btn) return;
     var userPaused = false;
+    var inView = true;
     var saveData = navigator.connection && navigator.connection.saveData;
 
     var render = function () {
@@ -198,6 +200,7 @@
     if ("IntersectionObserver" in window) {
       new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
+          inView = entry.isIntersecting;
           if (entry.isIntersecting) { if (!userPaused && video.paused) tryPlay(); }
           else if (!video.paused) video.pause();
         });
@@ -205,7 +208,7 @@
     }
     document.addEventListener("visibilitychange", function () {
       if (document.hidden) video.pause();
-      else if (!userPaused) tryPlay();
+      else if (!userPaused && inView) tryPlay();
     });
     render();
   }
@@ -870,7 +873,12 @@
       update();
       if (form.getAttribute("data-submitted")) validateExtra(false);
     });
-    picker.addEventListener("input", function (e) { if (e.target.type === "number" && e.target.value !== "") update(); });
+    // quantities are clamped on "change" (blur/enter), not while the user is still typing
+    picker.addEventListener("input", function (e) {
+      if (e.target.type !== "number") return;
+      var n = Number(e.target.value);
+      if (e.target.value !== "" && n >= 1 && n <= MAX_QTY && Math.floor(n) === n) update();
+    });
     picker.addEventListener("click", function (e) {
       var btn = e.target.closest("[data-step]");
       if (!btn) return;
