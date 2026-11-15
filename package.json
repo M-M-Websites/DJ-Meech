@@ -1,0 +1,14 @@
+{
+  "name": "dj-meech-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "DJ Meech: DJ booking and equipment rental website (static HTML/CSS/JS).",
+  "scripts": {
+    "start": "node tests/server.cjs",
+    "test": "node --test --test-concurrency=1 tests/site.test.cjs",
+    "set-domain": "node scripts/set-domain.mjs"
+  },
+  "devDependencies": {
+    "axe-core": "4.10.2"
+  }
+}

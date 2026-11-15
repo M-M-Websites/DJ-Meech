@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# After choosing a domain, run: node scripts/set-domain.mjs https://your-domain.com
+# That script writes sitemap.xml and adds the Sitemap line below.
