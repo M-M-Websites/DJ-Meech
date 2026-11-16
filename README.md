@@ -109,8 +109,11 @@ The automated test suite drives both pages in headless Chromium. It covers navig
 
 ```bash
 npm install
-npm test
+npm test                  # all 146 tests
+npm run test:practices    # just the 100 UI/UX practice checks
 ```
+
+[`UI-PRACTICES.md`](UI-PRACTICES.md) lists the 100 UI/UX practices the design follows. For each one it gives where it lives in the code and the test that checks it.
 
 Playwright with Chromium must be available (`npm i -D playwright && npx playwright install chromium` on a fresh machine).
 
@@ -129,7 +132,8 @@ assets/               Original client video and photos (kept as supplied)
 assets/img/           Web-optimized photos, equipment illustrations, icons, social image
 assets/video/         Web-optimized hero video (WebM + MP4) and poster
 scripts/set-domain.mjs  Sets the live domain for SEO files
-tests/                Automated end-to-end tests and local preview server
+tests/                End-to-end tests, the 100 practice checks, local preview server
+UI-PRACTICES.md       The 100 UI/UX practices: where each is applied and its test
 LAUNCH-CHECKLIST.md   Items the owner must approve before launch
 ```
 
@@ -144,4 +148,6 @@ LAUNCH-CHECKLIST.md   Items the owner must approve before launch
 | Platinum Silver | `#C0C0C0` |
 | White | `#FFFFFF` |
 
-Type: Archivo (headlines), Manrope (body), JetBrains Mono (labels and figures), all from Google Fonts.
+Type: Archivo (headlines, labels, prices) and Manrope (body), both from Google Fonts.
+
+All spacing, radii, font sizes, colours, shadows and motion timings are tokens at the top of `css/styles.css`. Change a token there and every component follows.

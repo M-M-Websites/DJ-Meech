@@ -5,7 +5,9 @@
   "description": "DJ Meech: DJ booking and equipment rental website (static HTML/CSS/JS).",
   "scripts": {
     "start": "node tests/server.cjs",
-    "test": "node --test --test-concurrency=1 tests/site.test.cjs",
+    "test": "node --test --test-concurrency=1 tests/site.test.cjs tests/practices.test.cjs",
+    "test:site": "node --test tests/site.test.cjs",
+    "test:practices": "node --test tests/practices.test.cjs",
     "set-domain": "node scripts/set-domain.mjs"
   },
   "devDependencies": {

@@ -4,91 +4,11 @@ const { test, describe, before, after } = require("node:test");
 const assert = require("node:assert/strict");
 const path = require("node:path");
 const fs = require("node:fs");
-const { chromium } = require("playwright");
-const { createServer } = require("./server.cjs");
-
-const ROOT = path.join(__dirname, "..");
+const { ROOT, CFG, FORM_URL, state, setup, teardown, isoDate, open, fillBooking } = require("./helpers.cjs");
 const AXE_SRC = fs.readFileSync(require.resolve("axe-core/axe.min.js", { paths: [ROOT] }), "utf8");
-const CONFIG_SRC = fs.readFileSync(path.join(ROOT, "js/config.js"), "utf8");
-const CFG = (() => { const window = {}; eval(CONFIG_SRC); return window.DJ_MEECH; })();
-const FORM_URL = "https://formsubmit.co/ajax/moorework321@gmail.com";
 
-let server, base, browser;
-
-before(async () => {
-  server = createServer();
-  await new Promise((r) => server.listen(0, "127.0.0.1", r));
-  base = `http://127.0.0.1:${server.address().port}/`;
-  browser = await chromium.launch();
-});
-after(async () => {
-  await browser.close();
-  await new Promise((r) => server.close(r));
-});
-
-function isoDate(offsetDays) {
-  const d = new Date();
-  d.setDate(d.getDate() + offsetDays);
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
-}
-
-/** Opens a page with fonts blocked (offline-safe) and the form endpoint mocked.
- *  formMode: "success" | "error" | "activation" */
-async function open(pagePath = "index.html", { viewport = { width: 1440, height: 900 }, formMode = "success", reducedMotion = "no-preference" } = {}) {
-  const context = await browser.newContext({ viewport, reducedMotion });
-  const errors = [];
-  const posts = [];
-  await context.route(/fonts\.(googleapis|gstatic)\.com/, (r) => r.abort());
-  await context.route("https://formsubmit.co/**", async (route) => {
-    const req = route.request();
-    posts.push({ url: req.url(), method: req.method(), headers: req.headers(), body: req.postDataJSON() });
-    if (formMode === "error") return route.fulfill({ status: 500, contentType: "application/json", body: JSON.stringify({ success: "false", message: "Server error" }) });
-    if (formMode === "activation") return route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ success: "false", message: "This form needs Activation." }) });
-    return route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ success: "true", message: "The form was submitted successfully." }) });
-  });
-  const page = await context.newPage();
-  page.on("pageerror", (e) => errors.push("pageerror: " + e.message));
-  page.on("console", (m) => {
-    if (m.type() === "error" && !/fonts\.g|ERR_FAILED/.test(m.text() + (m.location().url || ""))) errors.push("console: " + m.text());
-  });
-  page.on("requestfailed", (r) => {
-    if (!/fonts\.g/.test(r.url())) errors.push("requestfailed: " + r.url() + " " + (r.failure() && r.failure().errorText));
-  });
-  page.on("response", (r) => {
-    if (r.status() >= 400 && r.url().startsWith(base)) errors.push(`HTTP ${r.status()}: ${r.url()}`);
-  });
-  await page.goto(base + pagePath, { waitUntil: "load" });
-  return { page, context, errors, posts };
-}
-
-async function fillBooking(page, overrides = {}) {
-  const v = Object.assign({
-    name: "Jordan Test",
-    email: "jordan@example.com",
-    phone: "9015550123",
-    type: "Birthday Party",
-    pkg: "The Small Party",
-    date: isoDate(30),
-    guests: "60",
-    start: "19:00",
-    end: "23:00",
-    location: "Test Venue, Memphis",
-    equipment: "Need sound equipment",
-    details: "Mostly hip-hop and R&B.",
-  }, overrides);
-  await page.fill("#bk-name", v.name);
-  await page.fill("#bk-email", v.email);
-  await page.fill("#bk-phone", v.phone);
-  await page.selectOption("#bk-event-type", v.type);
-  if (v.pkg) await page.selectOption("#bk-package", v.pkg);
-  await page.fill("#bk-date", v.date);
-  await page.fill("#bk-guests", v.guests);
-  await page.fill("#bk-start", v.start);
-  await page.fill("#bk-end", v.end);
-  await page.fill("#bk-location", v.location);
-  await page.selectOption("#bk-equipment", v.equipment);
-  await page.fill("#bk-details", v.details);
-}
+before(setup);
+after(teardown);
 
 /* ---------------------------------------------------------------- */
 describe("pages load cleanly", () => {
@@ -243,9 +163,9 @@ describe("hero", () => {
   test("copy, buttons and starting price match the brief", async () => {
     const { page, context } = await open("index.html");
     assert.equal((await page.textContent("h1")).replace(/\s+/g, " ").trim().toUpperCase(), "YOUR EVENT. YOUR SOUND. YOUR VIBE.");
-    assert.match(await page.textContent(".hero__eyebrow"), /The DJ Meech Experience/i);
+    assert.match(await page.textContent(".hero__content .label"), /The DJ Meech experience/i);
     assert.match(await page.textContent(".hero"), /From unforgettable celebrations to professional event sound/);
-    assert.match((await page.textContent(".hero__price")).replace(/\s+/g, " "), /DJ bookings starting at \$300/i);
+    assert.match((await page.textContent(".hero__note")).replace(/\s+/g, " "), /DJ bookings starting at \$300/i);
     assert.ok(await page.isVisible('.hero a:has-text("Book DJ Meech")'));
     assert.ok(await page.isVisible('.hero a:has-text("View Rental Equipment")'));
     await context.close();
@@ -267,7 +187,7 @@ describe("hero", () => {
     const { page, context } = await open("index.html", { reducedMotion: "reduce" });
     await page.waitForTimeout(800);
     assert.equal(await page.evaluate(() => document.getElementById("hero-video").paused), true);
-    assert.match(await page.textContent("#hero-video-toggle .sr-only"), /Play/);
+    assert.match(await page.getAttribute("#hero-video-toggle", "aria-label"), /Play/);
     await context.close();
   });
 });
@@ -287,7 +207,7 @@ describe("DJ packages", () => {
     assert.deepEqual(cards.map((c) => c.price), ["$300", "$600", "$750", "$1,200"]);
     assert.deepEqual(cards.map((c) => c.meta), ["2 hours", "4 hours", "4 hours", "5 hours"]);
     assert.deepEqual(cards.map((c) => c.badge), [null, "Most Popular", null, null]);
-    assert.deepEqual(cards.map((c) => c.cta), ["Book This Package", "Book This Package", "Request Corporate Booking", "Request Wedding Booking"]);
+    assert.deepEqual(cards.map((c) => c.cta), ["Book this package", "Book this package", "Request corporate booking", "Request wedding booking"]);
     assert.ok(cards.every((c) => c.items === 4));
     const note = await page.textContent(".pricing-note");
     assert.match(note, /All prices shown are estimated starting rates\. Final pricing depends on event details, duration, location, equipment requirements, and availability\. Sound equipment, lighting, delivery, and other services may cost extra\. Contact us for a personalized quote\./);
@@ -389,10 +309,10 @@ describe("custom event packages", () => {
 describe("booking form", () => {
   test("has every required field and the optional budget", async () => {
     const { page, context } = await open("index.html");
-    const required = await page.$$eval("#booking-form [required]", (els) => els.map((e) => document.querySelector(`label[for="${e.id}"]`).textContent.replace("*", "").trim()));
-    assert.deepEqual(required, ["Full Name", "Email Address", "Phone Number", "Event Type", "Selected DJ Package", "Event Date", "Estimated Guest Count", "Event Start Time", "Event End Time", "Event Location", "Equipment Needs", "Additional Details"]);
+    const required = await page.$$eval("#booking-form [required]", (els) => els.map((e) => (e.type === "radio" ? document.getElementById(e.closest("[role=radiogroup]").getAttribute("aria-labelledby")) : document.querySelector(`label[for="${e.id}"]`)).textContent.replace("*", "").trim()));
+    assert.deepEqual(required, ["Full name", "Email address", "Phone number", "Event type", "Selected DJ package", "Event date", "Estimated guest count", "Event start time", "Event end time", "Event location", "Equipment needs", "Additional details"]);
     assert.equal(await page.getAttribute("#bk-budget", "required"), null);
-    assert.equal((await page.textContent('#booking-form button[type="submit"]')).trim(), "Request My Booking");
+    assert.equal((await page.textContent('#booking-form button[type="submit"]')).trim(), "Request my booking");
     await context.close();
   });
 
@@ -411,9 +331,9 @@ describe("booking form", () => {
     const { page, context, posts } = await open("index.html");
     await fillBooking(page, { email: "not-an-email", phone: "555", date: isoDate(-3) });
     await page.click('#booking-form button[type="submit"]');
-    assert.match(await page.textContent("#bk-email-error"), /email address/);
+    assert.match(await page.textContent("#bk-email-error"), /email format/);
     assert.match(await page.textContent("#bk-phone-error"), /area code/);
-    assert.match(await page.textContent("#bk-date-error"), /today or a future date/);
+    assert.match(await page.textContent("#bk-date-error"), /today or a later date/);
     assert.equal(posts.length, 0);
     // fixing the email clears its error as you type
     await page.fill("#bk-email", "ok@example.com");
@@ -503,18 +423,18 @@ describe("equipment rentals", () => {
     assert.equal((await page.textContent("h1")).trim().toUpperCase(), "PROFESSIONAL SOUND. YOUR EVENT.");
     const cards = await page.$$eval(".rent-card", (els) => els.map((el) => ({
       name: el.querySelector("h3").textContent.trim(),
-      price: el.querySelector(".price-figure").textContent.trim(),
+      price: el.querySelector(".price-figure").textContent.trim() + el.querySelector(".unit").textContent.trim(),
       img: !!el.querySelector("img[alt]"),
-      tag: !!el.querySelector(".media-tag"),
+      tag: !!el.querySelector(".rent-card__media .label"),
       desc: el.querySelector(".rent-card__desc").textContent.trim().length > 20,
       cta: el.querySelector(".btn").textContent.trim(),
     })));
     assert.deepEqual(cards.map((c) => c.name), ["Powered PA Speaker", "Dual Speaker Package", "Wireless Microphone System", "DJ Controller", "Basic Event Lighting", "Complete PA System"]);
     assert.deepEqual(cards.map((c) => c.price), ["$85/day", "$160/day", "$50/day", "$100/day", "$75/day", "$250/day"]);
-    assert.ok(cards.every((c) => c.img && c.tag && c.desc && c.cta === "Request Rental"));
+    assert.ok(cards.every((c) => c.img && c.tag && c.desc && c.cta === "Request rental"));
     const pa = await page.$$eval("#complete-pa .check-list li", (l) => l.map((x) => x.textContent));
-    assert.deepEqual(pa, ["Two PA speakers", "Speaker stands", "Audio mixer", "Microphone", "Required cables"]);
-    assert.match((await page.textContent(".delivery-band")).replace(/\s+/g, " "), /Delivery & Setup.*Delivery and setup subject to availability, equipment requirements, and event location\..*Starting at ?\$75/);
+    assert.deepEqual(pa, ["2 PA speakers", "Speaker stands", "Audio mixer", "Microphone", "Required cables"]);
+    assert.match((await page.textContent(".delivery-band")).replace(/\s+/g, " "), /Delivery and setup.*Delivery and setup subject to availability, equipment requirements, and event location\..*Starting at ?\$75/);
     await context.close();
   });
 
@@ -532,7 +452,7 @@ describe("equipment rentals", () => {
     const { page, context } = await open("rentals.html");
     await page.click('#dual-speakers a:has-text("Request Rental")');
     assert.equal(await page.isChecked("#rt-item-dual-speakers"), true);
-    assert.ok(await page.isVisible("#rt-estimate"));
+    assert.equal(await page.isVisible("#rt-estimate-empty"), false);
     assert.equal(await page.textContent("#rt-estimate-total"), "$160");
 
     await page.check("#rt-item-wireless-mic");
@@ -560,7 +480,7 @@ describe("equipment rentals", () => {
     // unticking removes it from the estimate
     await page.uncheck("#rt-item-dual-speakers");
     await page.uncheck("#rt-item-wireless-mic");
-    assert.equal(await page.isVisible("#rt-estimate"), false);
+    assert.ok(await page.isVisible("#rt-estimate-empty"), "empty state returns");
     await context.close();
   });
 
@@ -575,7 +495,7 @@ describe("equipment rentals", () => {
     await page.fill("#rt-return", isoDate(8));
     await page.dispatchEvent("#rt-return", "blur");
     await page.click('#rental-form button[type="submit"]');
-    assert.match(await page.textContent("#rt-return-error"), /before the start date/);
+    assert.match(await page.textContent("#rt-return-error"), /on or after the start date/);
     assert.equal(posts.length, 0);
     await context.close();
   });
@@ -609,7 +529,7 @@ describe("equipment rentals", () => {
     assert.equal(b._subject, "New equipment rental inquiry — DJ Meech website");
     assert.equal(
       (await page.textContent("#rental-success p")).trim(),
-      "Your rental inquiry has been received! We'll contact you to discuss equipment availability and confirm pricing."
+      "Your rental inquiry has been received! We’ll contact you to discuss equipment availability and confirm pricing."
     );
     await context.close();
   });
@@ -626,22 +546,22 @@ describe("gallery", () => {
     const { page, context } = await open("index.html");
     const captions = await page.$$eval(".gallery__caption > span:first-child", (s) => s.map((x) => x.textContent));
     assert.deepEqual(captions, CFG.gallery.map((g) => g.caption));
-    assert.ok(captions.includes("Inside the Studio") && captions.includes("Behind the Sound") && captions.includes("The Creative Process"));
+    assert.ok(captions.includes("Inside the studio") && captions.includes("Behind the sound") && captions.includes("The creative process"));
 
     const first = page.locator(".gallery__item").first();
     await first.click();
     await page.waitForSelector("#lightbox[open]");
-    assert.equal(await page.textContent("#lightbox-count"), "1 / 4");
+    assert.equal(await page.textContent("#lightbox-count"), "1 of 4");
     assert.equal(await page.textContent("#lightbox-caption"), CFG.gallery[0].caption);
     await page.waitForFunction(() => { const i = document.querySelector("#lightbox-stage img"); return i && i.complete && i.naturalWidth > 1000; });
     await page.keyboard.press("ArrowRight");
-    assert.equal(await page.textContent("#lightbox-count"), "2 / 4");
+    assert.equal(await page.textContent("#lightbox-count"), "2 of 4");
     await page.click("[data-lightbox-next]");
     assert.ok(await page.$("#lightbox-stage video[controls]"), "third item is the video clip");
     await page.keyboard.press("ArrowLeft");
     await page.keyboard.press("ArrowLeft");
     await page.keyboard.press("ArrowLeft");
-    assert.equal(await page.textContent("#lightbox-count"), "4 / 4", "wraps around");
+    assert.equal(await page.textContent("#lightbox-count"), "4 of 4", "wraps around");
     await page.keyboard.press("Escape");
     await page.waitForSelector("#lightbox:not([open])", { state: "attached" });
     assert.equal(await page.evaluate(() => document.activeElement.classList.contains("gallery__item")), true, "focus returns to the photo");
