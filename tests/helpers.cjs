@@ -50,6 +50,8 @@ async function open(pagePath = "index.html", opts = {}) {
     const s = document.createElement("style");
     s.textContent = "html{scroll-behavior:auto!important}";
     document.addEventListener("DOMContentLoaded", () => document.head.appendChild(s));
+    const native = Element.prototype.scrollIntoView;
+    Element.prototype.scrollIntoView = function (o) { return native.call(this, typeof o === "object" ? Object.assign({}, o, { behavior: "auto" }) : o); };
   });
   if (beforeGoto) await beforeGoto(context);
   const page = await context.newPage();
