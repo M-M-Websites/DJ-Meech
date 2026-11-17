@@ -425,13 +425,13 @@ describe("equipment rentals", () => {
       name: el.querySelector("h3").textContent.trim(),
       price: el.querySelector(".price-figure").textContent.trim() + el.querySelector(".unit").textContent.trim(),
       img: !!el.querySelector("img[alt]"),
-      tag: !!el.querySelector(".rent-card__media .label"),
+      tag: !!el.querySelector(".rent-card__media .tag"),
       desc: el.querySelector(".rent-card__desc").textContent.trim().length > 20,
       cta: el.querySelector(".btn").textContent.trim(),
     })));
     assert.deepEqual(cards.map((c) => c.name), ["Powered PA Speaker", "Dual Speaker Package", "Wireless Microphone System", "DJ Controller", "Basic Event Lighting", "Complete PA System"]);
     assert.deepEqual(cards.map((c) => c.price), ["$85/day", "$160/day", "$50/day", "$100/day", "$75/day", "$250/day"]);
-    assert.ok(cards.every((c) => c.img && c.tag && c.desc && c.cta === "Request rental"));
+    assert.ok(cards.every((c, i) => c.img && c.tag && c.desc && c.cta === "Request rental: " + CFG.rentals[i].name), JSON.stringify(cards));
     const pa = await page.$$eval("#complete-pa .check-list li", (l) => l.map((x) => x.textContent));
     assert.deepEqual(pa, ["2 PA speakers", "Speaker stands", "Audio mixer", "Microphone", "Required cables"]);
     assert.match((await page.textContent(".delivery-band")).replace(/\s+/g, " "), /Delivery and setup.*Delivery and setup subject to availability, equipment requirements, and event location\..*Starting at ?\$75/);

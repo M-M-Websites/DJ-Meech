@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-US">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -7,7 +7,8 @@
   <meta name="description" content="Rent speakers, PA systems, wireless microphones, DJ controllers and event lighting from DJ Meech. See estimated daily starting rates and request a rental quote.">
   <meta name="keywords" content="DJ equipment rental, speaker rental, audio equipment rental, PA system rental, wireless microphone rental, event lighting rental">
   <meta name="robots" content="index, follow, max-image-preview:large">
-  <meta name="theme-color" content="#08080C">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#121212">
   <!-- Google Search Console: paste the verification tag here, e.g.
        <meta name="google-site-verification" content="YOUR-CODE"> -->
 
@@ -18,17 +19,16 @@
   <meta property="og:image" content="assets/img/og-image.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="A recording studio workstation with a laptop and mixing console">
+  <meta property="og:image:alt" content="DJ Meech: Your event. Your sound. Your vibe. DJ booking and equipment rentals, beside a photo of a recording studio session">
   <meta name="twitter:card" content="summary_large_image">
 
+  <link rel="icon" href="favicon.ico" sizes="32x32">
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
   <link rel="manifest" href="site.webmanifest">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..900&family=Manrope:wght@400;500;600;700&display=swap">
-  <link rel="preload" as="image" href="assets/img/studio-session-2-1170.webp" imagesrcset="assets/img/studio-session-2-640.webp 640w, assets/img/studio-session-2-1170.webp 1170w" imagesizes="100vw" type="image/webp" fetchpriority="high">
+  <link rel="preload" href="assets/fonts/figtree-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" as="image" href="assets/img/studio-session-2-640.webp" imagesrcset="assets/img/studio-session-2-640.webp 640w, assets/img/studio-session-2-1170.webp 1170w" imagesizes="(min-width: 64em) 300px, (min-width: 48em) 240px, 320px" type="image/webp" fetchpriority="high">
   <link rel="stylesheet" href="css/styles.css">
 
   <script>document.documentElement.classList.add("js");</script>
@@ -46,40 +46,43 @@
   </script>
 </head>
 <body data-page="rentals">
-  <!-- Icon sprite -->
+  <!-- Icon sprite: one set, 24px grid, 2px round stroke -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
     <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 4h3.5l1.7 4.3-2.2 1.4a11 11 0 0 0 6.3 6.3l1.4-2.2L20 15.5V19a1.5 1.5 0 0 1-1.6 1.5A16.5 16.5 0 0 1 3.5 5.6 1.5 1.5 0 0 1 5 4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
-    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-left" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-right" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 4h3.5l1.7 4.3-2.2 1.4a11 11 0 0 0 6.3 6.3l1.4-2.2L20 15.5V19a1.5 1.5 0 0 1-1.6 1.5A16.5 16.5 0 0 1 3.5 5.6 1.5 1.5 0 0 1 5 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15 9V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
     <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></symbol>
     <symbol id="i-pause" viewBox="0 0 24 24"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" fill="currentColor"/></symbol>
-    <symbol id="i-left" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-    <symbol id="i-right" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
     <symbol id="i-expand" viewBox="0 0 24 24"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-    <symbol id="i-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 12.5l2.8 2.8L16.5 9.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
-    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 11v6M12 7.5v.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
-    <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7.5v5.5M12 16.2v.3" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
-    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M5 7h14M10 7V5h4v2M7 7l1 12h8l1-12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 12.5l2.8 2.8L16.5 9.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 11v6M12 7.5v.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7.5v5.5M12 16.2v.3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M5 7h14M10 7V5h4v2M7 7l1 12h8l1-12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="i-retry" viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-    <symbol id="i-deck" viewBox="0 0 40 40"><rect x="3" y="9" width="34" height="22" rx="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="13" cy="20" r="6" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="13" cy="20" r="1.6" fill="currentColor"/><path d="M24 15v10M29 15v10M33 15v10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
-    <symbol id="i-party" viewBox="0 0 40 40"><path d="M7 33l7-20 13 13z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M22 8c2 2 2 4 0 6M30 12c-2 1-4 1-5-1M31 22c-2-1-3 0-4 2M25 4v2M34 8l-1.5 1.5M36 17h-2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
-    <symbol id="i-rings" viewBox="0 0 40 40"><circle cx="15" cy="23" r="9" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="25" cy="23" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M17 7l3-3 3 3-3 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
-    <symbol id="i-brief" viewBox="0 0 40 40"><rect x="5" y="12" width="30" height="21" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15 12V8.5A1.5 1.5 0 0 1 16.5 7h7A1.5 1.5 0 0 1 25 8.5V12M5 21h30" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
-    <symbol id="i-speaker" viewBox="0 0 40 40"><rect x="9" y="4" width="22" height="32" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="20" cy="24" r="7" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="20" cy="12" r="2.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="20" cy="24" r="2" fill="currentColor"/></symbol>
-    <symbol id="i-truck" viewBox="0 0 48 48"><path d="M4 12h24v20H4zM28 19h8l6 7v6H28z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><circle cx="12" cy="35" r="4" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="35" cy="35" r="4" fill="none" stroke="currentColor" stroke-width="2.2"/></symbol>
-    <symbol id="i-logo" viewBox="0 0 64 64"><rect x="1" y="1" width="62" height="62" rx="14" fill="#12101a" stroke="#2a2537"/><path d="M14 46V18h6l12 16 12-16h6v28h-7V30l-11 14-11-14v16z" fill="#a78bfa"/></symbol>
+    <symbol id="i-deck" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="8" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15 9.5v5M18.5 9.5v5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-party" viewBox="0 0 24 24"><path d="M4 20l4.5-12 7.5 7.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M14 4c1.3 1.3 1.3 2.7 0 4M20 10c-1.3-1.3-2.7-1.3-4 0M18 3.5v1M21 7h-1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-rings" viewBox="0 0 24 24"><circle cx="9" cy="14.5" r="5.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="15" cy="14.5" r="5.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10 3.5h4L15.5 5 12 8.5 8.5 5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-brief" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 7V5h6v2M3 13h18" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-speaker" viewBox="0 0 24 24"><rect x="5.5" y="2.5" width="13" height="19" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="14.5" r="3.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="7" r="1" fill="currentColor"/></symbol>
+    <symbol id="i-truck" viewBox="0 0 24 24"><path d="M2 6h11v10H2zM13 9.5h4l4 4V16h-8z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="6.5" cy="18" r="2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17" cy="18" r="2" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+    <symbol id="i-logo" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#FF9F1C"/><g fill="#121212"><rect x="5" y="9" width="3" height="14" rx="1.5"/><rect x="9.75" y="13" width="3" height="10" rx="1.5"/><rect x="14.5" y="16.5" width="3" height="6.5" rx="1.5"/><rect x="19.25" y="13" width="3" height="10" rx="1.5"/><rect x="24" y="9" width="3" height="14" rx="1.5"/></g></symbol>
   </svg>
 
-  <a class="skip-link" href="#main">Skip to content</a>
+  <a class="skip-link" href="#main">Skip to main content</a>
 
   <header class="site-header" id="site-header">
-    <div class="container header-inner">
+    <div class="wrap header-inner">
       <a class="brand" href="index.html#top" aria-label="DJ Meech home">
         <svg class="brand__mark" aria-hidden="true"><use href="#i-logo"/></svg>
-        <span class="brand__word">DJ Meech</span>
+        <span class="brand__word" aria-hidden="true">DJ Meech</span>
       </a>
       <nav class="main-nav" aria-label="Main">
         <ul>
@@ -93,10 +96,11 @@
       </nav>
       <div class="header-actions">
         <a class="btn btn--primary btn--sm" href="index.html#book">Book DJ Meech</a>
-        <a class="btn btn--ghost btn--sm" href="rentals.html#rent">Rent equipment</a>
+        <a class="btn btn--outline btn--sm" href="rentals.html#rent">Rent equipment</a>
       </div>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu">
-        <span class="menu-toggle__bars" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span class="menu-toggle__icon" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span aria-hidden="true">Menu</span>
       </button>
     </div>
   </header>
@@ -114,65 +118,71 @@
     </nav>
     <div class="mobile-menu__actions">
       <a class="btn btn--primary" href="index.html#book">Book DJ Meech</a>
-      <a class="btn btn--ghost" href="rentals.html#rent">Rent equipment</a>
+      <a class="btn btn--outline" href="rentals.html#rent">Rent equipment</a>
     </div>
     <div class="mobile-menu__contact">
-      <a href="tel:+19013197461" data-contact="phone"><svg aria-hidden="true"><use href="#i-phone"/></svg>(901) 319-7461</a>
-      <a href="mailto:moorework321@gmail.com" data-contact="email"><svg aria-hidden="true"><use href="#i-mail"/></svg>moorework321@gmail.com</a>
+      <a class="contact-link" href="tel:+19013197461" data-contact="phone"><svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg>(901) 319-7461</a>
+      <a class="contact-link" href="mailto:moorework321@gmail.com" data-contact="email"><svg class="ico" aria-hidden="true"><use href="#i-mail"/></svg>moorework321@gmail.com</a>
     </div>
   </div>
 
-    <main id="main" tabindex="-1">
-    <section class="page-hero" id="top" aria-labelledby="rentals-title">
-      <div class="page-hero__media ph" style="--ph:#585655" aria-hidden="true">
-        <img src="assets/img/studio-session-2-1170.webp" srcset="assets/img/studio-session-2-640.webp 640w, assets/img/studio-session-2-1170.webp 1170w" sizes="100vw" width="1170" height="1181" fetchpriority="high" decoding="async" alt="">
-      </div>
-      <div class="container page-hero__inner">
-        <p class="label">Equipment rentals</p>
-        <h1 id="rentals-title">Professional sound. Your event.</h1>
-        <p class="lead">Explore estimated audio and DJ equipment rental rates. Request a quote for your event and get help finding the right setup.</p>
-        <div class="btn-row">
-          <a class="btn btn--primary btn--icon-end" href="#rent">Request a rental quote <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
-          <a class="btn btn--ghost" href="#catalog">Browse equipment</a>
+  <main id="main" tabindex="-1">
+    <section class="playlist-head" id="top" aria-labelledby="rentals-title">
+      <div class="wrap playlist-head__inner">
+        <figure class="playlist-head__cover">
+          <picture>
+            <source type="image/webp" srcset="assets/img/studio-session-2-640.webp 640w, assets/img/studio-session-2-1170.webp 1170w" sizes="(min-width: 64em) 300px, (min-width: 48em) 240px, 320px">
+            <img src="assets/img/studio-session-2-640.jpg" srcset="assets/img/studio-session-2-640.jpg 640w, assets/img/studio-session-2-1170.jpg 1170w" sizes="(min-width: 64em) 300px, (min-width: 48em) 240px, 320px" width="1170" height="1181" fetchpriority="high" decoding="async" alt="A person working on a laptop at a recording studio mixing console">
+          </picture>
+        </figure>
+        <div class="playlist-head__body">
+          <h1 id="rentals-title" data-enter>Professional sound. Your event.</h1>
+          <p data-enter style="--d:80ms">Explore estimated audio and DJ equipment rental rates. Request a quote for your event and get help finding the right setup.</p>
+          <p class="hero__meta" data-enter="fade" style="--d:160ms">
+            <svg class="brand__mark" aria-hidden="true"><use href="#i-logo"/></svg>
+            <strong>DJ Meech</strong>
+            <span class="dot" aria-hidden="true"></span>
+            <span>Daily rates from <strong data-bind="min-rental-price" class="num">$50</strong></span>
+            <span class="dot" aria-hidden="true"></span>
+            <span>Delivery and setup from <strong data-bind="delivery-price" class="num">$75</strong></span>
+          </p>
+          <div class="btn-row" data-enter style="--d:220ms">
+            <a class="btn btn--primary btn--icon-end" href="#rent">Request a rental quote <svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+            <a class="btn btn--outline" href="#catalog">Browse equipment</a>
+          </div>
         </div>
       </div>
     </section>
 
     <section class="section" id="catalog" aria-labelledby="catalog-title">
-      <div class="container">
-        <div class="section-head" data-reveal>
-          <p class="label">Rental catalog</p>
+      <div class="wrap">
+        <div class="section__head section__head--split">
           <h2 id="catalog-title">Rental gear and daily rates.</h2>
           <p>Estimated daily starting rates. Availability and final pricing are confirmed when we reply to your request.</p>
         </div>
-        <div class="rent-grid" id="rental-catalog" data-reveal-group aria-busy="true">
-          <p class="loading-status" role="status">Loading rental equipment…</p>
-          <div class="skeleton" aria-hidden="true"></div>
-          <div class="skeleton" aria-hidden="true"></div>
-          <div class="skeleton" aria-hidden="true"></div>
-          <noscript><p class="fine-print">The rental catalog needs JavaScript. Call <a href="tel:+19013197461">(901) 319-7461</a> or email <a href="mailto:moorework321@gmail.com">moorework321@gmail.com</a> for equipment and pricing.</p></noscript>
+        <div class="rent-grid" id="rental-catalog">
+<!-- prerender:rental-catalog --><article class="rent-card" id="pa-speaker" aria-labelledby="pa-speaker-name"><div class="rent-card__media"><img src="assets/img/equipment/pa-speaker.svg" alt="Illustration of a Powered PA Speaker" width="400" height="300" loading="lazy" decoding="async"><span class="tag">Illustrative image</span></div><div class="rent-card__body"><h3 id="pa-speaker-name">Powered PA Speaker</h3><p class="rent-card__price"><span>From</span> <span class="price-figure">$85</span><span class="unit">/day</span></p><p class="rent-card__desc">A single powered speaker for music, announcements and speeches at smaller gatherings.</p><a class="btn btn--outline btn--block" href="#rent" data-preset-rental="pa-speaker">Request rental<span class="sr-only">: Powered PA Speaker</span></a></div></article><article class="rent-card" id="dual-speakers" aria-labelledby="dual-speakers-name"><div class="rent-card__media"><img src="assets/img/equipment/dual-speakers.svg" alt="Illustration of a Dual Speaker Package" width="400" height="300" loading="lazy" decoding="async"><span class="tag">Illustrative image</span></div><div class="rent-card__body"><h3 id="dual-speakers-name">Dual Speaker Package</h3><p class="rent-card__price"><span>From</span> <span class="price-figure">$160</span><span class="unit">/day</span></p><p class="rent-card__desc">A matched pair of powered speakers for fuller, more even sound across your space.</p><a class="btn btn--outline btn--block" href="#rent" data-preset-rental="dual-speakers">Request rental<span class="sr-only">: Dual Speaker Package</span></a></div></article><article class="rent-card" id="wireless-mic" aria-labelledby="wireless-mic-name"><div class="rent-card__media"><img src="assets/img/equipment/wireless-mic.svg" alt="Illustration of a Wireless Microphone System" width="400" height="300" loading="lazy" decoding="async"><span class="tag">Illustrative image</span></div><div class="rent-card__body"><h3 id="wireless-mic-name">Wireless Microphone System</h3><p class="rent-card__price"><span>From</span> <span class="price-figure">$50</span><span class="unit">/day</span></p><p class="rent-card__desc">Cable-free microphone for toasts, speeches, presentations and announcements.</p><a class="btn btn--outline btn--block" href="#rent" data-preset-rental="wireless-mic">Request rental<span class="sr-only">: Wireless Microphone System</span></a></div></article><article class="rent-card" id="dj-controller" aria-labelledby="dj-controller-name"><div class="rent-card__media"><img src="assets/img/equipment/dj-controller.svg" alt="Illustration of a DJ Controller" width="400" height="300" loading="lazy" decoding="async"><span class="tag">Illustrative image</span></div><div class="rent-card__body"><h3 id="dj-controller-name">DJ Controller</h3><p class="rent-card__price"><span>From</span> <span class="price-figure">$100</span><span class="unit">/day</span></p><p class="rent-card__desc">A DJ controller for mixing music at your event. Ask about compatibility with your setup.</p><a class="btn btn--outline btn--block" href="#rent" data-preset-rental="dj-controller">Request rental<span class="sr-only">: DJ Controller</span></a></div></article><article class="rent-card" id="event-lighting" aria-labelledby="event-lighting-name"><div class="rent-card__media"><img src="assets/img/equipment/event-lighting.svg" alt="Illustration of a Basic Event Lighting" width="400" height="300" loading="lazy" decoding="async"><span class="tag">Illustrative image</span></div><div class="rent-card__body"><h3 id="event-lighting-name">Basic Event Lighting</h3><p class="rent-card__price"><span>From</span> <span class="price-figure">$75</span><span class="unit">/day</span></p><p class="rent-card__desc">Simple event lighting to add color and atmosphere to the dance floor or stage area.</p><a class="btn btn--outline btn--block" href="#rent" data-preset-rental="event-lighting">Request rental<span class="sr-only">: Basic Event Lighting</span></a></div></article><article class="rent-card" id="complete-pa" aria-labelledby="complete-pa-name"><div class="rent-card__media"><img src="assets/img/equipment/complete-pa.svg" alt="Illustration of a Complete PA System" width="400" height="300" loading="lazy" decoding="async"><span class="tag">Illustrative image</span></div><div class="rent-card__body"><h3 id="complete-pa-name">Complete PA System</h3><p class="rent-card__price"><span>From</span> <span class="price-figure">$250</span><span class="unit">/day</span></p><p class="rent-card__desc">A complete sound setup for events that need music and a microphone. Final contents are confirmed with your quote.</p><p class="includes-label">Proposed package contents</p><ul class="check-list"><li><svg class="ico" aria-hidden="true"><use href="#i-check"></use></svg><span>2 PA speakers</span></li><li><svg class="ico" aria-hidden="true"><use href="#i-check"></use></svg><span>Speaker stands</span></li><li><svg class="ico" aria-hidden="true"><use href="#i-check"></use></svg><span>Audio mixer</span></li><li><svg class="ico" aria-hidden="true"><use href="#i-check"></use></svg><span>Microphone</span></li><li><svg class="ico" aria-hidden="true"><use href="#i-check"></use></svg><span>Required cables</span></li></ul><a class="btn btn--outline btn--block" href="#rent" data-preset-rental="complete-pa">Request rental<span class="sr-only">: Complete PA System</span></a></div></article><!-- /prerender:rental-catalog -->
         </div>
 
-        <div class="delivery-band" data-reveal>
+        <div class="delivery-band">
           <svg class="delivery-band__icon" aria-hidden="true"><use href="#i-truck"/></svg>
-          <div>
+          <div class="delivery-band__body">
             <h3>Delivery and setup</h3>
-            <p class="fine-print" data-bind="delivery-note">Delivery and setup subject to availability, equipment requirements, and event location.</p>
+            <p data-bind="delivery-note">Delivery and setup subject to availability, equipment requirements, and event location.</p>
           </div>
-          <p class="price-figure"><span class="label">Starting at</span><span data-bind="delivery-price">$75</span></p>
+          <p class="price-figure"><span class="from">Starting at</span><span data-bind="delivery-price">$75</span></p>
         </div>
 
-        <div class="notice" data-reveal>
-          <svg aria-hidden="true"><use href="#i-info"/></svg>
+        <div class="notice">
+          <svg class="ico" aria-hidden="true"><use href="#i-info"/></svg>
           <p>Equipment images are illustrative and may not show the exact items available. Rental prices are estimated starting rates and exclude potential taxes, delivery fees, setup charges, and refundable deposits where applicable.</p>
         </div>
       </div>
     </section>
 
-    <section class="section section--plum" id="rent" aria-labelledby="rent-title">
-      <div class="container form-shell">
-        <div class="form-aside" data-reveal>
-          <p class="label">Rental inquiry</p>
+    <section class="section section--raised" id="rent" aria-labelledby="rent-title">
+      <div class="wrap form-shell">
+        <div class="form-aside">
           <h2 id="rent-title">Get the sound you need.</h2>
           <p>Pick your equipment and dates to see a preliminary estimate. Sending this form is a request only. Availability is confirmed when we reply.</p>
           <ol class="steps">
@@ -182,12 +192,12 @@
           </ol>
           <div class="aside-contact">
             <span>Questions about gear?</span>
-            <a href="tel:+19013197461" data-contact="phone"><svg aria-hidden="true"><use href="#i-phone"/></svg>(901) 319-7461</a>
-            <a href="mailto:moorework321@gmail.com" data-contact="email"><svg aria-hidden="true"><use href="#i-mail"/></svg>moorework321@gmail.com</a>
+            <a class="contact-link" href="tel:+19013197461" data-contact="phone"><svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg>(901) 319-7461</a>
+            <a class="contact-link" href="mailto:moorework321@gmail.com" data-contact="email"><svg class="ico" aria-hidden="true"><use href="#i-mail"/></svg>moorework321@gmail.com</a>
           </div>
         </div>
 
-        <div class="form-card" data-reveal>
+        <div class="form-card">
           <form id="rental-form" class="inquiry-form" data-form="rental" method="POST" action="https://formsubmit.co/moorework321@gmail.com" novalidate>
             <input type="hidden" name="_subject" value="New equipment rental inquiry — DJ Meech website">
             <input type="hidden" name="_template" value="table">
@@ -198,7 +208,8 @@
             <div class="honeypot" aria-hidden="true"><label for="rt-honey">Leave this field empty</label><input type="text" name="_honey" id="rt-honey" tabindex="-1" autocomplete="off"></div>
 
             <div class="form-grid">
-              <p class="form-group-title label">Your details</p>
+              <p class="form-required-note">Fields marked <span class="req" aria-hidden="true">*</span><span class="sr-only">with an asterisk</span> are required.</p>
+              <p class="form-group-title">Your details</p>
               <div class="field span-2">
                 <label for="rt-name">Full name<span class="req" aria-hidden="true">*</span></label>
                 <input type="text" id="rt-name" name="name" autocomplete="name" inputmode="text" autocapitalize="words" required maxlength="120">
@@ -216,14 +227,16 @@
                 <p class="field-error" id="rt-phone-error"></p>
               </div>
 
-              <p class="form-group-title label">Equipment</p>
+              <p class="form-group-title">Equipment</p>
               <div class="field span-2" id="rt-equipment-field">
                 <span class="field-label" id="rt-equipment-label">Requested equipment and quantity<span class="req" aria-hidden="true">*</span></span>
-                <div class="equip-picker" id="rt-equipment" role="group" aria-labelledby="rt-equipment-label" aria-describedby="rt-equipment-error"></div>
+                <div class="equip-picker" id="rt-equipment" role="group" aria-labelledby="rt-equipment-label" aria-describedby="rt-equipment-error">
+<!-- prerender:rental-picker --><div class="equip-row" data-id="pa-speaker"><label class="equip-check" for="rt-item-pa-speaker"><input type="checkbox" id="rt-item-pa-speaker" value="Powered PA Speaker" name="Equipment"><span><span class="nm">Powered PA Speaker</span><span class="pr">From $85/day</span></span></label><div class="stepper"><button type="button" data-step="-1" aria-label="Decrease Powered PA Speaker quantity">−</button><input type="number" id="rt-qty-pa-speaker" min="1" max="20" value="1" inputmode="numeric" autocomplete="off" aria-label="Powered PA Speaker quantity" name="Quantity: Powered PA Speaker"><button type="button" data-step="1" aria-label="Increase Powered PA Speaker quantity">+</button></div></div><div class="equip-row" data-id="dual-speakers"><label class="equip-check" for="rt-item-dual-speakers"><input type="checkbox" id="rt-item-dual-speakers" value="Dual Speaker Package" name="Equipment"><span><span class="nm">Dual Speaker Package</span><span class="pr">From $160/day</span></span></label><div class="stepper"><button type="button" data-step="-1" aria-label="Decrease Dual Speaker Package quantity">−</button><input type="number" id="rt-qty-dual-speakers" min="1" max="20" value="1" inputmode="numeric" autocomplete="off" aria-label="Dual Speaker Package quantity" name="Quantity: Dual Speaker Package"><button type="button" data-step="1" aria-label="Increase Dual Speaker Package quantity">+</button></div></div><div class="equip-row" data-id="wireless-mic"><label class="equip-check" for="rt-item-wireless-mic"><input type="checkbox" id="rt-item-wireless-mic" value="Wireless Microphone System" name="Equipment"><span><span class="nm">Wireless Microphone System</span><span class="pr">From $50/day</span></span></label><div class="stepper"><button type="button" data-step="-1" aria-label="Decrease Wireless Microphone System quantity">−</button><input type="number" id="rt-qty-wireless-mic" min="1" max="20" value="1" inputmode="numeric" autocomplete="off" aria-label="Wireless Microphone System quantity" name="Quantity: Wireless Microphone System"><button type="button" data-step="1" aria-label="Increase Wireless Microphone System quantity">+</button></div></div><div class="equip-row" data-id="dj-controller"><label class="equip-check" for="rt-item-dj-controller"><input type="checkbox" id="rt-item-dj-controller" value="DJ Controller" name="Equipment"><span><span class="nm">DJ Controller</span><span class="pr">From $100/day</span></span></label><div class="stepper"><button type="button" data-step="-1" aria-label="Decrease DJ Controller quantity">−</button><input type="number" id="rt-qty-dj-controller" min="1" max="20" value="1" inputmode="numeric" autocomplete="off" aria-label="DJ Controller quantity" name="Quantity: DJ Controller"><button type="button" data-step="1" aria-label="Increase DJ Controller quantity">+</button></div></div><div class="equip-row" data-id="event-lighting"><label class="equip-check" for="rt-item-event-lighting"><input type="checkbox" id="rt-item-event-lighting" value="Basic Event Lighting" name="Equipment"><span><span class="nm">Basic Event Lighting</span><span class="pr">From $75/day</span></span></label><div class="stepper"><button type="button" data-step="-1" aria-label="Decrease Basic Event Lighting quantity">−</button><input type="number" id="rt-qty-event-lighting" min="1" max="20" value="1" inputmode="numeric" autocomplete="off" aria-label="Basic Event Lighting quantity" name="Quantity: Basic Event Lighting"><button type="button" data-step="1" aria-label="Increase Basic Event Lighting quantity">+</button></div></div><div class="equip-row" data-id="complete-pa"><label class="equip-check" for="rt-item-complete-pa"><input type="checkbox" id="rt-item-complete-pa" value="Complete PA System" name="Equipment"><span><span class="nm">Complete PA System</span><span class="pr">From $250/day</span></span></label><div class="stepper"><button type="button" data-step="-1" aria-label="Decrease Complete PA System quantity">−</button><input type="number" id="rt-qty-complete-pa" min="1" max="20" value="1" inputmode="numeric" autocomplete="off" aria-label="Complete PA System quantity" name="Quantity: Complete PA System"><button type="button" data-step="1" aria-label="Increase Complete PA System quantity">+</button></div></div><!-- /prerender:rental-picker -->
+                </div>
                 <p class="field-error" id="rt-equipment-error"></p>
               </div>
 
-              <p class="form-group-title label">Dates and location</p>
+              <p class="form-group-title">Dates and location</p>
               <div class="field">
                 <label for="rt-start">Rental start date<span class="req" aria-hidden="true">*</span></label>
                 <input type="date" id="rt-start" name="Rental Start Date" autocomplete="off" required>
@@ -251,7 +264,7 @@
               </div>
 
               <div class="estimate-panel" id="rt-estimate" aria-live="polite">
-                <div class="estimate-panel__head"><span class="label">Preliminary rental estimate</span><strong id="rt-estimate-total">$0</strong></div>
+                <div class="estimate-panel__head"><span>Preliminary rental estimate</span><strong id="rt-estimate-total">$0</strong></div>
                 <p class="empty-msg" id="rt-estimate-empty">No equipment selected yet. Tick the items you need above and your estimate appears here.</p>
                 <ul id="rt-estimate-lines"></ul>
                 <p>Estimate only, not a confirmed quote or reservation. Pricing excludes potential taxes, delivery fees, setup charges, and refundable deposits where applicable.</p>
@@ -269,82 +282,82 @@
               <button class="btn btn--primary btn--block" type="submit" data-submit>Request rental quote</button>
               <div class="form-footer__row">
                 <span class="draft-status" data-draft-status aria-live="polite"></span>
-                <button class="btn-danger-text" type="button" data-clear-form><svg aria-hidden="true"><use href="#i-trash"/></svg>Clear form</button>
+                <button class="text-btn text-btn--danger" type="button" data-clear-form><svg class="ico ico--16" aria-hidden="true"><use href="#i-trash"/></svg>Clear form</button>
               </div>
               <div class="confirm-clear" data-confirm-clear hidden>
                 <p>Clear everything you’ve entered in this form?</p>
                 <div class="btn-row">
-                  <button class="btn btn--danger btn--sm" type="button" data-confirm-yes>Yes, clear the form</button>
-                  <button class="btn btn--ghost btn--sm" type="button" data-confirm-no>Keep editing</button>
+                  <button class="btn btn--outline btn--sm" type="button" data-confirm-yes>Yes, clear the form</button>
+                  <button class="btn btn--outline btn--sm" type="button" data-confirm-no>Keep editing</button>
                 </div>
               </div>
-              <p class="fine-print">Submitting this form doesn’t reserve equipment or charge you. We’ll confirm availability and pricing with you directly. Fields marked <span aria-hidden="true">*</span><span class="sr-only">with an asterisk</span> are required.</p>
+              <p class="fine">Submitting this form doesn’t reserve equipment or charge you. We’ll confirm availability and pricing with you directly.</p>
             </div>
           </form>
 
           <div class="form-success" id="rental-success" tabindex="-1" role="status" hidden>
-            <div class="form-success__icon"><svg aria-hidden="true"><use href="#i-check"/></svg></div>
+            <div class="form-success__icon"><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg></div>
             <h3 data-success-title>Thanks!</h3>
             <p>Your rental inquiry has been received! We’ll contact you to discuss equipment availability and confirm pricing.</p>
             <ul class="next-steps">
-              <li><svg aria-hidden="true"><use href="#i-check-circle"/></svg><span>Your inquiry was sent to DJ Meech.</span></li>
-              <li><svg aria-hidden="true"><use href="#i-check-circle"/></svg><span>Expect a reply at <strong data-success-email>your email</strong> or by phone.</span></li>
-              <li><svg aria-hidden="true"><use href="#i-check-circle"/></svg><span>No equipment is reserved and nothing is charged until you confirm.</span></li>
+              <li><svg class="ico" aria-hidden="true"><use href="#i-check-circle"/></svg><span>Your inquiry was sent to DJ Meech.</span></li>
+              <li><svg class="ico" aria-hidden="true"><use href="#i-check-circle"/></svg><span>Expect a reply at <strong data-success-email>your email</strong> or by phone.</span></li>
+              <li><svg class="ico" aria-hidden="true"><use href="#i-check-circle"/></svg><span>No equipment is reserved and nothing is charged until you confirm.</span></li>
             </ul>
-            <button class="btn btn--ghost" type="button" data-reset-form="rental-form">Send another inquiry</button>
+            <button class="btn btn--outline" type="button" data-reset-form="rental-form">Send another inquiry</button>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section contact" id="contact" aria-labelledby="contact-title">
-      <div class="contact__bg ph" style="--ph:#635e54" aria-hidden="true">
-        <img src="assets/img/home-studio-1170.webp" srcset="assets/img/home-studio-640.webp 640w, assets/img/home-studio-1170.webp 1170w" sizes="100vw" width="1170" height="1461" loading="lazy" decoding="async" alt="">
-      </div>
-      <div class="container contact__inner" data-reveal>
-        <p class="label">Contact</p>
-        <h2 id="contact-title">Your next event starts here.</h2>
-        <p class="lead">Let’s create an unforgettable atmosphere. Contact DJ Meech for event bookings and equipment rental inquiries.</p>
-        <div class="contact__card">
-          <a class="contact__item" href="tel:+19013197461" data-contact="phone">
-            <span class="ico"><svg aria-hidden="true"><use href="#i-phone"/></svg></span>
-            <span><span class="k label">Phone</span><span class="v">(901) 319-7461</span></span>
-          </a>
-          <a class="contact__item" href="mailto:moorework321@gmail.com" data-contact="email">
-            <span class="ico"><svg aria-hidden="true"><use href="#i-mail"/></svg></span>
-            <span><span class="k label">Email</span><span class="v">moorework321@gmail.com</span></span>
-          </a>
+    <!-- ============ CONTACT ============ -->
+    <section class="section section--raised" id="contact" aria-labelledby="contact-title">
+      <div class="wrap contact">
+        <div class="contact__body">
+          <h2 id="contact-title">Your next event starts here.</h2>
+          <p>Let’s create an unforgettable atmosphere. Contact DJ Meech for event bookings and equipment rental inquiries.</p>
+          <a class="contact__phone" href="tel:+19013197461" data-contact="phone"><span class="sr-only">Call DJ Meech at </span>(901) 319-7461</a>
+          <div class="contact__email">
+            <a href="mailto:moorework321@gmail.com" data-contact="email"><span class="sr-only">Email DJ Meech at </span>moorework321@gmail.com</a>
+            <button class="text-btn copy-btn" type="button" data-copy="moorework321@gmail.com"><svg class="ico ico--16" aria-hidden="true"><use href="#i-copy"/></svg><span data-copy-label>Copy email</span></button>
+          </div>
+          <p class="fine" data-bind="service-area" hidden></p>
+          <div class="btn-row">
+            <a class="btn btn--outline btn--icon-start" href="tel:+19013197461" data-contact="phone"><svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg>Call now</a>
+            <a class="btn btn--primary" href="index.html#book">Request booking</a>
+            <a class="btn btn--outline" href="#rent">Rent equipment</a>
+          </div>
         </div>
-        <p class="contact__brand label">DJ Meech</p>
-        <p class="fine-print" data-bind="service-area" hidden></p>
-        <div class="btn-row">
-          <a class="btn btn--ghost btn--icon-start" href="tel:+19013197461" data-contact="phone"><svg aria-hidden="true"><use href="#i-phone"/></svg>Call now</a>
-          <a class="btn btn--primary" href="index.html#book">Request booking</a>
-          <a class="btn btn--ghost" href="#rent">Rent equipment</a>
-        </div>
+        <figure class="contact__photo">
+          <picture>
+            <source type="image/webp" srcset="assets/img/home-studio-640.webp 640w, assets/img/home-studio-1170.webp 1170w" sizes="(min-width: 64em) 380px, calc(100vw - 32px)">
+            <img src="assets/img/home-studio-640.jpg" srcset="assets/img/home-studio-640.jpg 640w, assets/img/home-studio-1170.jpg 1170w" sizes="(min-width: 64em) 380px, calc(100vw - 32px)" width="1170" height="1461" loading="lazy" decoding="async" alt="A producer seated at a keyboard and studio monitors in a home recording studio, light streaming through the window">
+          </picture>
+        </figure>
       </div>
     </section>
   </main>
 
-
   <footer class="site-footer">
-    <div class="container">
+    <div class="wrap">
       <div class="footer-grid">
         <div class="footer-brand">
           <a class="brand" href="index.html#top" aria-label="DJ Meech home">
             <svg class="brand__mark" aria-hidden="true"><use href="#i-logo"/></svg>
-            <span class="brand__word">DJ Meech</span>
+            <span class="brand__word" aria-hidden="true">DJ Meech</span>
           </a>
           <p>DJ bookings for private events, weddings and corporate events, plus DJ and audio equipment rentals.</p>
         </div>
         <nav aria-label="Footer">
           <h2>Explore</h2>
           <ul>
+            <li><a href="index.html#top">Home</a></li>
             <li><a href="index.html#about">About</a></li>
             <li><a href="index.html#bookings">DJ bookings</a></li>
             <li><a href="rentals.html">Equipment rentals</a></li>
             <li><a href="index.html#gallery">Gallery</a></li>
             <li><a href="index.html#faq">FAQ</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
           </ul>
         </nav>
         <div>
@@ -372,13 +385,14 @@
   </footer>
 
   <div class="call-bar" id="call-bar" role="region" aria-label="Quick contact">
-    <a class="btn btn--ghost btn--icon-start" href="tel:+19013197461" data-contact="phone"><svg aria-hidden="true"><use href="#i-phone"/></svg>Call</a>
+    <svg class="brand__mark" aria-hidden="true"><use href="#i-logo"/></svg>
+    <a class="btn btn--outline btn--icon-start" href="tel:+19013197461" data-contact="phone"><svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg>Call</a>
     <a class="btn btn--primary" href="#rent">Rent equipment</a>
   </div>
 
   <div class="toasts" id="toasts" role="region" aria-label="Notifications" aria-live="polite"></div>
 
-  <script src="js/config.js"></script>
-  <script src="js/main.js"></script>
+  <script src="js/config.js" defer></script>
+  <script src="js/main.js" defer></script>
 </body>
 </html>

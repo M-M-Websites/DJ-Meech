@@ -19,7 +19,7 @@
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
     });
   };
-  var icon = function (id, cls) { return '<svg' + (cls ? ' class="' + cls + '"' : "") + ' aria-hidden="true"><use href="#' + id + '"/></svg>'; };
+  var icon = function (id, cls) { return '<svg class="ico' + (cls ? " " + cls : "") + '" aria-hidden="true"><use href="#' + id + '"/></svg>'; };
   var todayISO = function () {
     var d = new Date();
     return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
@@ -83,7 +83,7 @@
     if (opts.action) {
       var act = document.createElement("button");
       act.type = "button";
-      act.className = "btn btn--ghost btn--sm";
+      act.className = "btn btn--sm";
       act.textContent = opts.action.label;
       act.addEventListener("click", function () { opts.action.onClick(); dismiss(); });
       el.appendChild(act);
@@ -196,6 +196,7 @@
       });
     };
     if (page === "rentals") { setCurrent("rentals"); return; }
+    if (page !== "home") return;
     var map = { top: "top", about: "about", services: "about", bookings: "bookings", estimator: "bookings", custom: "bookings", rentals: "rentals", gallery: "gallery", faq: "gallery", book: "contact", contact: "contact" };
     if (!("IntersectionObserver" in window)) return;
     var io = new IntersectionObserver(function (entries) {
@@ -249,7 +250,7 @@
      ------------------------------------------------------------------ */
   function emptyState(title, body) {
     var b = CFG.business;
-    return '<div class="empty-state"><strong>' + escapeHTML(title) + "</strong><p>" + escapeHTML(body) + '</p><a class="btn btn--ghost btn--icon-start" href="' + escapeHTML(b.phoneHref) + '">' + icon("i-phone") + "Call " + escapeHTML(b.phoneDisplay) + "</a></div>";
+    return '<div class="empty-state"><strong>' + escapeHTML(title) + "</strong><p>" + escapeHTML(body) + '</p><a class="btn btn--outline btn--icon-start" href="' + escapeHTML(b.phoneHref) + '">' + icon("i-phone") + "Call " + escapeHTML(b.phoneDisplay) + "</a></div>";
   }
   function done(wrap) { wrap.removeAttribute("aria-busy"); }
 
@@ -257,20 +258,19 @@
     var wrap = $("#package-cards");
     if (!wrap) return;
     if (!packages.length) { wrap.innerHTML = emptyState("Packages are being updated", "New DJ packages are on the way. Call for current pricing in the meantime."); done(wrap); return; }
-    var maxHours = Math.max.apply(null, packages.map(function (p) { return p.hours; }));
     wrap.innerHTML = packages.map(function (p) {
-      var meter = "";
-      for (var i = 0; i < maxHours; i++) meter += '<i class="' + (i < p.hours ? "on" : "") + '" style="height:' + (6 + i * 2) + 'px"></i>';
       var id = escapeHTML(p.id);
       return (
-        '<article class="package card card-hover' + (p.badge ? " package--featured" : "") + '" id="package-' + id + '" aria-labelledby="package-' + id + '-name">' +
-          (p.badge ? '<span class="package__badge label">' + escapeHTML(p.badge) + "</span>" : "") +
-          '<div class="package__meta"><span class="label">' + p.hours + (p.hours === 1 ? " hour" : " hours") + '</span><span class="meter" aria-hidden="true">' + meter + "</span></div>" +
-          '<h3 id="package-' + id + '-name">' + escapeHTML(p.name) + "</h3>" +
-          '<div class="package__price"><span class="label">Starting at</span><span class="price-figure"><sup>$</sup>' + Number(p.price).toLocaleString("en-US") + "</span></div>" +
-          '<p class="package__desc">' + escapeHTML(p.description) + "</p>" +
+        '<article class="package' + (p.badge ? " package--featured" : "") + '" id="package-' + id + '" aria-labelledby="package-' + id + '-name">' +
+          '<div class="package__time">' +
+            (p.badge ? '<span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>' : "") +
+            '<span class="package__meta"><b>' + p.hours + "</b> " + (p.hours === 1 ? "hour" : "hours") + "</span>" +
+            (p.badge ? '<span class="pill-tag package__badge">' + escapeHTML(p.badge) + "</span>" : "") +
+          "</div>" +
+          '<div class="package__title"><h3 id="package-' + id + '-name">' + escapeHTML(p.name) + '</h3><p class="package__desc">' + escapeHTML(p.description) + "</p></div>" +
           '<ul class="check-list">' + p.inclusions.map(function (x) { return "<li>" + icon("i-check") + "<span>" + escapeHTML(x) + "</span></li>"; }).join("") + "</ul>" +
-          '<a class="btn ' + (p.badge ? "btn--primary" : "btn--ghost") + ' btn--block" href="#book" data-preset-package="' + id + '">' + escapeHTML(p.cta) + "</a>" +
+          '<div class="package__price"><span class="from">Starting at</span><span class="price-figure">' + money(p.price) + "</span>" +
+            '<a class="btn ' + (p.badge ? "btn--primary" : "btn--outline") + '" href="#book" data-preset-package="' + id + '">' + escapeHTML(p.cta) + "</a></div>" +
         "</article>"
       );
     }).join("");
@@ -283,17 +283,17 @@
       grid.innerHTML = !rentals.length ? emptyState("Rental equipment is being updated", "The catalog is being refreshed. Call to ask what’s available for your date.") : rentals.map(function (r) {
         var id = escapeHTML(r.id);
         return (
-          '<article class="rent-card card card-hover" id="' + id + '" aria-labelledby="' + id + '-name">' +
+          '<article class="rent-card" id="' + id + '" aria-labelledby="' + id + '-name">' +
             '<div class="rent-card__media">' +
               '<img src="' + escapeHTML(r.image) + '" alt="' + escapeHTML((r.illustrative ? "Illustration of a " : "") + r.name) + '" width="400" height="300" loading="lazy" decoding="async">' +
-              (r.illustrative ? '<span class="label">Illustrative image</span>' : "") +
+              (r.illustrative ? '<span class="tag">Illustrative image</span>' : "") +
             "</div>" +
             '<div class="rent-card__body">' +
               '<h3 id="' + id + '-name">' + escapeHTML(r.name) + "</h3>" +
-              '<div class="rent-card__price"><span class="label">From</span><span class="price-figure">' + money(r.price) + '</span><span class="unit">/' + escapeHTML(r.unit) + "</span></div>" +
+              '<p class="rent-card__price"><span>From</span> <span class="price-figure">' + money(r.price) + '</span><span class="unit">/' + escapeHTML(r.unit) + "</span></p>" +
               '<p class="rent-card__desc">' + escapeHTML(r.description) + "</p>" +
-              (r.includes && r.includes.length ? '<p class="includes-label label">Proposed package contents</p><ul class="check-list">' + r.includes.map(function (x) { return "<li>" + icon("i-check") + "<span>" + escapeHTML(x) + "</span></li>"; }).join("") + "</ul>" : "") +
-              '<a class="btn btn--ghost btn--block" href="#rent" data-preset-rental="' + id + '">Request rental</a>' +
+              (r.includes && r.includes.length ? '<p class="includes-label">Proposed package contents</p><ul class="check-list">' + r.includes.map(function (x) { return "<li>" + icon("i-check") + "<span>" + escapeHTML(x) + "</span></li>"; }).join("") + "</ul>" : "") +
+              '<a class="btn btn--outline btn--block" href="#rent" data-preset-rental="' + id + '">Request rental<span class="sr-only">: ' + escapeHTML(r.name) + "</span></a>" +
             "</div>" +
           "</article>"
         );
@@ -303,7 +303,7 @@
     var list = $("#rental-preview");
     if (list) {
       list.innerHTML = rentals.map(function (r) {
-        return '<li><a href="rentals.html#' + encodeURIComponent(r.id) + '"><img src="' + escapeHTML(r.image) + '" alt="" width="72" height="54" loading="lazy" decoding="async"><span class="name">' + escapeHTML(r.name) + '</span><span class="price">From <strong>' + money(r.price) + "</strong>/" + escapeHTML(r.unit) + "</span></a></li>";
+        return '<li><a href="rentals.html#' + encodeURIComponent(r.id) + '"><img src="' + escapeHTML(r.image) + '" alt="" width="96" height="72" loading="lazy" decoding="async"><span><span class="name">' + escapeHTML(r.name) + '</span><span class="price">From <strong>' + money(r.price) + "</strong>/" + escapeHTML(r.unit) + "</span></span></a></li>";
       }).join("");
     }
   }
@@ -313,13 +313,21 @@
     var dialog = $("#lightbox");
     if (!grid) return;
     var items = CFG.gallery || [];
-    if (!items.length) { grid.innerHTML = '<div class="empty-state"><strong>Photos are on the way</strong><p>Event photos will appear here soon. In the meantime, see the DJ packages and starting prices.</p><a class="btn btn--ghost" href="#bookings">See DJ packages</a></div>'; done(grid); return; }
+    if (!items.length) { grid.innerHTML = '<div class="empty-state"><strong>Photos are on the way</strong><p>Event photos will appear here soon. In the meantime, see the DJ packages and starting prices.</p><a class="btn btn--outline" href="#bookings">See DJ packages</a></div>'; done(grid); return; }
     grid.innerHTML = items.map(function (g, i) {
-      var media = g.type === "video"
-        ? '<video src="' + escapeHTML(g.src) + '" poster="' + escapeHTML(g.poster) + '" width="' + g.width + '" height="' + g.height + '" muted loop playsinline preload="none" aria-hidden="true"></video><span class="play-badge label">Video</span>'
-        : '<img src="' + escapeHTML(g.srcSmall || g.src) + '" srcset="' + (g.srcSmall ? escapeHTML(g.srcSmall) + " 640w, " : "") + escapeHTML(g.src) + " " + g.width + 'w" sizes="(max-width: 720px) 92vw, 45vw" width="' + g.width + '" height="' + g.height + '" alt="' + escapeHTML(g.alt) + '" loading="lazy" decoding="async">';
-      return '<button class="gallery__item ph" style="--ph:' + escapeHTML(g.placeholder || "") + '" type="button" data-index="' + i + '" aria-label="View ' + (g.type === "video" ? "video" : "photo") + ": " + escapeHTML(g.caption) + '">' + media +
-        '<span class="gallery__caption"><span>' + escapeHTML(g.caption) + '</span><span class="zoom" aria-hidden="true">' + (g.type === "video" ? icon("i-play", "i-play") : icon("i-expand")) + "</span></span></button>";
+      var media;
+      if (g.type === "video") {
+        media = '<video src="' + escapeHTML(g.src) + '" poster="' + escapeHTML(g.poster) + '" width="' + g.width + '" height="' + g.height + '" muted loop playsinline preload="none" aria-hidden="true"></video><span class="pill-tag play-badge">Video</span>';
+      } else {
+        var jpg = function (u) { return escapeHTML(String(u).replace(/\.webp$/, ".jpg")); };
+        var webpSet = (g.srcSmall ? escapeHTML(g.srcSmall) + " 640w, " : "") + escapeHTML(g.src) + " " + g.width + "w";
+        var jpgSet = (g.srcSmall ? jpg(g.srcSmall) + " 640w, " : "") + jpg(g.src) + " " + g.width + "w";
+        var sizes = "(min-width: 64em) 290px, 50vw";
+        media = '<picture><source type="image/webp" srcset="' + webpSet + '" sizes="' + sizes + '">' +
+          '<img src="' + jpg(g.srcSmall || g.src) + '" srcset="' + jpgSet + '" sizes="' + sizes + '" width="' + g.width + '" height="' + g.height + '" alt="' + escapeHTML(g.alt) + '" loading="lazy" decoding="async"></picture>';
+      }
+      return '<button class="gallery__item" style="--ph:' + escapeHTML(g.placeholder || "") + '" type="button" data-index="' + i + '" aria-label="View ' + (g.type === "video" ? "video" : "photo") + ": " + escapeHTML(g.caption) + '">' + media +
+        '<span class="gallery__caption"><span>' + escapeHTML(g.caption) + '</span><span class="zoom" aria-hidden="true">' + (g.type === "video" ? icon("i-play") : icon("i-expand")) + "</span></span></button>";
     }).join("");
     done(grid);
 
@@ -351,8 +359,6 @@
         el = document.createElement("img");
         el.src = g.src; el.alt = g.alt; el.width = g.width; el.height = g.height;
       }
-      el.className = "ph";
-      el.style.setProperty("--ph", g.placeholder || "");
       stage.insertBefore(el, stage.firstChild);
       caption.textContent = g.caption;
       count.textContent = (current + 1) + " of " + items.length;
@@ -744,7 +750,7 @@
         '<div class="form-alert__body">' +
           "<strong>Your request didn’t go through.</strong>" +
           "<span>Your details are still here. Try again, or reach DJ Meech directly at <a href=\"" + escapeHTML(b.phoneHref) + '">' + escapeHTML(b.phoneDisplay) + "</a>.</span>" +
-          '<div class="btn-row"><button type="button" class="btn btn--ghost btn--sm btn--icon-start" data-retry>' + icon("i-retry") + 'Try again</button><a class="btn btn--ghost btn--sm" href="' + escapeHTML(mailtoFallback(data, opts.mailSubject)) + '">Email these details instead</a></div>' +
+          '<div class="btn-row"><button type="button" class="btn btn--outline btn--sm btn--icon-start" data-retry>' + icon("i-retry") + 'Try again</button><a class="btn btn--outline btn--sm" href="' + escapeHTML(mailtoFallback(data, opts.mailSubject)) + '">Email these details instead</a></div>' +
         "</div>";
       alertBox.hidden = false;
       $("[data-retry]", alertBox).addEventListener("click", function () { form.requestSubmit(); });
@@ -785,6 +791,7 @@
     if (!form) return null;
     var typeSel = $("#bk-event-type");
     var pkgSel = $("#bk-package");
+    [typeSel, pkgSel].forEach(function (sel) { while (sel.options.length > 1) sel.remove(1); });
     CFG.eventTypes.forEach(function (t) { typeSel.add(new Option(t, t)); });
     packages.forEach(function (p) { pkgSel.add(new Option(p.name + " (from " + money(p.price) + ")", p.name)); });
     pkgSel.add(new Option("Custom event package", "Custom Event Package"));
@@ -879,7 +886,7 @@
     picks.innerHTML = packages.map(function (p) {
       var id = "est-pkg-" + p.id;
       return '<div class="seg"><input type="radio" name="estPackage" id="' + id + '" value="' + escapeHTML(p.id) + '"' + (p === defaultPkg ? " checked" : "") + ">" +
-        '<label for="' + id + '">' + icon("i-check", "tick") + '<span>' + escapeHTML(p.name.replace(/^The /, "")) + '</span><span class="amt">' + money(p.price) + "</span></label></div>";
+        '<label for="' + id + '"><svg class="tick" aria-hidden="true"><use href="#i-check"/></svg><span>' + escapeHTML(p.name.replace(/^The /, "")) + '</span><span class="amt">' + money(p.price) + "</span></label></div>";
     }).join("");
     range.max = String(opts.length - 1);
     range.value = "0";
@@ -891,9 +898,14 @@
       var hours = opts[Number(range.value)] || 0;
       return { p: p, hours: hours, total: p.price + hours * rate };
     };
+    var totalEl = $("#estimator-total");
     var render = function () {
       var s = state();
-      $("#estimator-total").textContent = money(s.total);
+      var next = money(s.total);
+      if (totalEl.textContent !== next) {
+        totalEl.textContent = next;
+        if (!reduceMotion) { totalEl.classList.remove("is-ticking"); void totalEl.offsetWidth; totalEl.classList.add("is-ticking"); }
+      }
       range.style.setProperty("--fill", (opts.length > 1 ? (Number(range.value) / (opts.length - 1)) * 100 : 0) + "%");
       var hoursLabel = s.hours + (s.hours === 1 ? " hour" : " hours");
       range.setAttribute("aria-valuetext", hoursLabel + ", plus " + money(s.hours * rate));
@@ -946,26 +958,32 @@
   /* ------------------------------------------------------------------
      Rental form: equipment picker, dates, preliminary estimate
      ------------------------------------------------------------------ */
-  function initRental() {
-    var form = $("#rental-form");
-    if (!form) return;
-    var picker = $("#rt-equipment");
-    var MAX_QTY = 20;
-    if (!rentals.length) picker.innerHTML = '<p class="hint">Equipment is being updated. Describe what you need in the details below.</p>';
-    else picker.innerHTML = rentals.map(function (r) {
-      var cid = "rt-item-" + r.id, qid = "rt-qty-" + r.id;
+  /* Rental picker rows. staticMode is the no-JavaScript version baked into
+     rentals.html by scripts/prerender.mjs: named fields, quantities enabled. */
+  var MAX_QTY = 20;
+  function pickerHTML(staticMode) {
+    return rentals.map(function (r) {
+      var cid = "rt-item-" + r.id, qid = "rt-qty-" + r.id, nm = escapeHTML(r.name);
       return (
         '<div class="equip-row" data-id="' + escapeHTML(r.id) + '">' +
-          '<label class="equip-check" for="' + cid + '"><input type="checkbox" id="' + cid + '" value="' + escapeHTML(r.id) + '">' +
-            '<span><span class="nm">' + escapeHTML(r.name) + '</span><span class="pr">From ' + money(r.price) + "/" + escapeHTML(r.unit) + "</span></span></label>" +
+          '<label class="equip-check" for="' + cid + '"><input type="checkbox" id="' + cid + '" value="' + (staticMode ? nm : escapeHTML(r.id)) + '"' + (staticMode ? ' name="Equipment"' : "") + ">" +
+            '<span><span class="nm">' + nm + '</span><span class="pr">From ' + money(r.price) + "/" + escapeHTML(r.unit) + "</span></span></label>" +
           '<div class="stepper">' +
-            '<button type="button" data-step="-1" aria-label="Decrease ' + escapeHTML(r.name) + ' quantity" disabled>−</button>' +
-            '<input type="number" id="' + qid + '" min="1" max="' + MAX_QTY + '" value="1" inputmode="numeric" autocomplete="off" aria-label="' + escapeHTML(r.name) + ' quantity" disabled>' +
-            '<button type="button" data-step="1" aria-label="Increase ' + escapeHTML(r.name) + ' quantity" disabled>+</button>' +
+            '<button type="button" data-step="-1" aria-label="Decrease ' + nm + ' quantity"' + (staticMode ? "" : " disabled") + ">−</button>" +
+            '<input type="number" id="' + qid + '" min="1" max="' + MAX_QTY + '" value="1" inputmode="numeric" autocomplete="off" aria-label="' + nm + ' quantity"' + (staticMode ? ' name="Quantity: ' + nm + '"' : " disabled") + ">" +
+            '<button type="button" data-step="1" aria-label="Increase ' + nm + ' quantity"' + (staticMode ? "" : " disabled") + ">+</button>" +
           "</div>" +
         "</div>"
       );
     }).join("");
+  }
+
+  function initRental() {
+    var form = $("#rental-form");
+    if (!form) return;
+    var picker = $("#rt-equipment");
+    if (!rentals.length) picker.innerHTML = '<p class="hint">Equipment is being updated. Describe what you need in the details below.</p>';
+    else picker.innerHTML = pickerHTML(false);
 
     var start = $("#rt-start"), ret = $("#rt-return");
     var today = todayISO();
@@ -1103,27 +1121,55 @@
   }
 
   /* ------------------------------------------------------------------
-     Scroll reveal (fade and rise, 50ms stagger). Content is visible
-     without it, and below-the-fold items only.
+     Copy-to-clipboard (email): "Copied" + check for 2s, announced politely
      ------------------------------------------------------------------ */
-  function initReveal() {
-    if (reduceMotion || !("IntersectionObserver" in window)) return;
-    var targets = $$("[data-reveal]");
-    $$("[data-reveal-group]").forEach(function (group) {
-      Array.prototype.forEach.call(group.children, function (child, i) {
-        if (child.classList.contains("loading-status")) return;
-        child.style.setProperty("--reveal-delay", Math.min(i, 8) * 50 + "ms");
-        targets.push(child);
+  function initCopy() {
+    $$("[data-copy]").forEach(function (btn) {
+      var label = $("[data-copy-label]", btn);
+      var original = btn.innerHTML;
+      var timer;
+      label.setAttribute("aria-live", "polite");
+      btn.addEventListener("click", function () {
+        var text = btn.getAttribute("data-copy");
+        var done = function () {
+          clearTimeout(timer);
+          btn.innerHTML = icon("i-check", "ico--16") + '<span data-copy-label aria-live="polite">Copied</span>';
+          btn.setAttribute("data-copied", "");
+          timer = setTimeout(function () { btn.innerHTML = original; btn.removeAttribute("data-copied"); }, 2000);
+        };
+        var fallback = function () {
+          var ta = document.createElement("textarea");
+          ta.value = text; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.opacity = "0";
+          document.body.appendChild(ta); ta.select();
+          try { document.execCommand("copy"); done(); } catch (e) { /* leave the visible address for manual copy */ }
+          ta.remove();
+        };
+        if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(done, fallback);
+        else fallback();
       });
     });
-    var vh = window.innerHeight;
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) { if (entry.isIntersecting) { entry.target.classList.add("is-revealed"); io.unobserve(entry.target); } });
-    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.05 });
-    targets.forEach(function (el) {
-      if (el.getBoundingClientRect().top > vh * 0.92) { el.classList.add("reveal-pending"); io.observe(el); }
+  }
+
+  /* ------------------------------------------------------------------
+     FAQ: open items are reflected in the URL hash (shareable, Back-safe)
+     ------------------------------------------------------------------ */
+  function initFaqHash() {
+    var items = $$(".faq details[id]");
+    if (!items.length) return;
+    var openFromHash = function () {
+      var id = decodeURIComponent(location.hash.slice(1));
+      var d = id && document.getElementById(id);
+      if (d && items.indexOf(d) !== -1) d.open = true;
+    };
+    openFromHash();
+    window.addEventListener("hashchange", openFromHash);
+    items.forEach(function (d) {
+      d.addEventListener("toggle", function () {
+        var here = location.hash.slice(1) === d.id;
+        if (d.open && !here) history.replaceState(null, "", "#" + d.id);
+        else if (!d.open && here) history.replaceState(null, "", location.pathname + location.search);
+      });
     });
-    window.addEventListener("hashchange", function () { $$(".reveal-pending:not(.is-revealed)").forEach(function (el) { el.classList.add("is-revealed"); }); });
   }
 
   /* ------------------------------------------------------------------
@@ -1166,10 +1212,11 @@
   initPresetLinks(booking);
   initRental();
   enhancePasswords();
-  initReveal();
+  initCopy();
+  initFaqHash();
   initCallBar();
 
-  window.DJM = { toast: toast, enhancePasswords: enhancePasswords, relativeFromNow: relativeFromNow };
+  window.DJM = { toast: toast, enhancePasswords: enhancePasswords, relativeFromNow: relativeFromNow, pickerHTML: pickerHTML };
 
   if (location.hash.length > 1) {
     var target = document.getElementById(decodeURIComponent(location.hash.slice(1)));

@@ -45,6 +45,12 @@ async function open(pagePath = "index.html", opts = {}) {
     if (formMode === "activation") return route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ success: "false", message: "This form needs Activation." }) });
     return route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ success: "true", message: "The form was submitted successfully." }) });
   });
+  // CSS smooth scrolling moves the page while Playwright aims a click; tests scroll instantly.
+  await context.addInitScript(() => {
+    const s = document.createElement("style");
+    s.textContent = "html{scroll-behavior:auto!important}";
+    document.addEventListener("DOMContentLoaded", () => document.head.appendChild(s));
+  });
   if (beforeGoto) await beforeGoto(context);
   const page = await context.newPage();
   page.on("pageerror", (e) => errors.push("pageerror: " + e.message));
