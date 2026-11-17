@@ -264,13 +264,13 @@
         '<article class="package' + (p.badge ? " package--featured" : "") + '" id="package-' + id + '" aria-labelledby="package-' + id + '-name">' +
           '<div class="package__time">' +
             (p.badge ? '<span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>' : "") +
-            '<span class="package__meta"><b>' + p.hours + "</b> " + (p.hours === 1 ? "hour" : "hours") + "</span>" +
+            '<span class="package__meta"><b>' + p.hours + "</b>\u00a0" + (p.hours === 1 ? "hour" : "hours") + "</span>" +
             (p.badge ? '<span class="pill-tag package__badge">' + escapeHTML(p.badge) + "</span>" : "") +
           "</div>" +
           '<div class="package__title"><h3 id="package-' + id + '-name">' + escapeHTML(p.name) + '</h3><p class="package__desc">' + escapeHTML(p.description) + "</p></div>" +
           '<ul class="check-list">' + p.inclusions.map(function (x) { return "<li>" + icon("i-check") + "<span>" + escapeHTML(x) + "</span></li>"; }).join("") + "</ul>" +
           '<div class="package__price"><span class="from">Starting at</span><span class="price-figure">' + money(p.price) + "</span>" +
-            '<a class="btn ' + (p.badge ? "btn--primary" : "btn--outline") + '" href="#book" data-preset-package="' + id + '">' + escapeHTML(p.cta) + "</a></div>" +
+            '<a class="btn ' + (p.badge ? "btn--primary" : "btn--outline") + '" href="#book" data-preset-package="' + id + '">' + escapeHTML(p.cta) + '<span class="sr-only">: ' + escapeHTML(p.name) + "</span></a></div>" +
         "</article>"
       );
     }).join("");
@@ -890,7 +890,7 @@
     }).join("");
     range.max = String(opts.length - 1);
     range.value = "0";
-    $("#estimator-ticks").innerHTML = opts.map(function (h) { return "<span>" + (h === 0 ? "0" : "+" + h + " hr") + "</span>"; }).join("");
+    $("#estimator-ticks").innerHTML = opts.map(function (h) { return "<span>" + (h === 0 ? "0" : "+" + h + "\u00a0hr") + "</span>"; }).join("");
 
     var state = function () {
       var checked = form.querySelector('input[name="estPackage"]:checked');
@@ -911,9 +911,9 @@
       range.setAttribute("aria-valuetext", hoursLabel + ", plus " + money(s.hours * rate));
       $("#estimator-hours-value").innerHTML = "<strong>" + hoursLabel + "</strong> of extra DJ time: +" + money(s.hours * rate);
       $("#estimator-lines").innerHTML =
-        "<li><span>" + escapeHTML(s.p.name) + " (" + s.p.hours + " hrs)</span><span>" + money(s.p.price) + "</span></li>" +
+        "<li><span>" + escapeHTML(s.p.name) + " (" + s.p.hours + "\u00a0hrs)</span><span>" + money(s.p.price) + "</span></li>" +
         "<li><span>Additional DJ time (" + s.hours + " × " + money(rate) + ")</span><span>+" + money(s.hours * rate) + "</span></li>" +
-        "<li><span>Total DJ time</span><span>" + (s.p.hours + s.hours) + " hrs</span></li>";
+        "<li><span>Total DJ time</span><span>" + (s.p.hours + s.hours) + "\u00a0hrs</span></li>";
     };
     form.addEventListener("input", render);
     form.addEventListener("change", render);

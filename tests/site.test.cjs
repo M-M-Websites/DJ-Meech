@@ -198,7 +198,7 @@ describe("DJ packages", () => {
     const cards = await page.$$eval(".package", (els) => els.map((el) => ({
       name: el.querySelector("h3").textContent.trim(),
       price: el.querySelector(".price-figure").textContent.trim(),
-      meta: el.querySelector(".package__meta").textContent.trim(),
+      meta: el.querySelector(".package__meta").textContent.replace(/\u00a0/g, " ").trim(),
       badge: el.querySelector(".package__badge") ? el.querySelector(".package__badge").textContent.trim() : null,
       cta: el.querySelector(".btn").textContent.trim(),
       items: el.querySelectorAll(".check-list li").length,
@@ -207,7 +207,9 @@ describe("DJ packages", () => {
     assert.deepEqual(cards.map((c) => c.price), ["$300", "$600", "$750", "$1,200"]);
     assert.deepEqual(cards.map((c) => c.meta), ["2 hours", "4 hours", "4 hours", "5 hours"]);
     assert.deepEqual(cards.map((c) => c.badge), [null, "Most Popular", null, null]);
-    assert.deepEqual(cards.map((c) => c.cta), ["Book this package", "Book this package", "Request corporate booking", "Request wedding booking"]);
+    // each button also carries its package name for screen readers (": The Small Party")
+    assert.deepEqual(cards.map((c) => c.cta.split(":")[0]), ["Book this package", "Book this package", "Request corporate booking", "Request wedding booking"]);
+    assert.deepEqual(cards.map((c) => c.cta.split(": ")[1]), cards.map((c) => c.name));
     assert.ok(cards.every((c) => c.items === 4));
     const note = await page.textContent(".pricing-note");
     assert.match(note, /All prices shown are estimated starting rates\. Final pricing depends on event details, duration, location, equipment requirements, and availability\. Sound equipment, lighting, delivery, and other services may cost extra\. Contact us for a personalized quote\./);
@@ -604,8 +606,38 @@ describe("content guardrails", () => {
   });
 });
 
+describe("content without JavaScript", () => {
+  test("prerendered blocks in the HTML match what js/config.js renders (run `npm run prerender` after editing config.js)", async () => {
+    const { pathToFileURL } = require("node:url");
+    const mod = await import(pathToFileURL(path.join(ROOT, "scripts/prerender.mjs")).href);
+    for (const file of Object.keys(mod.BLOCKS)) {
+      const fresh = await mod.render(file);
+      const html = fs.readFileSync(path.join(ROOT, file), "utf8");
+      for (const [name, content] of Object.entries(fresh)) {
+        const m = html.match(new RegExp(`<!-- prerender:${name} -->([\\s\\S]*?)<!-- /prerender:${name} -->`));
+        assert.ok(m, `marker ${name} in ${file}`);
+        assert.equal(m[1], content, `${file} ${name} is stale: run npm run prerender`);
+      }
+    }
+  });
+
+  test("with JavaScript off, packages, prices, rentals and contact details are still on the page", async () => {
+    const { page, context } = await open("index.html", { contextOptions: { javaScriptEnabled: false } });
+    const text = (await page.textContent("main")).replace(/\s+/g, " ");
+    for (const p of CFG.packages) assert.ok(text.includes(p.name) && text.includes("$" + p.price.toLocaleString("en-US")), p.name);
+    for (const r of CFG.rentals) assert.ok(text.includes(r.name), r.name);
+    assert.ok(text.includes("(901) 319-7461"));
+    assert.equal(await page.locator("#bk-package option").count(), CFG.packages.length + 3);
+    await context.close();
+    const r = await open("rentals.html", { contextOptions: { javaScriptEnabled: false } });
+    assert.equal(await r.page.locator(".rent-card").count(), CFG.rentals.length);
+    assert.equal(await r.page.locator('#rt-equipment input[type="checkbox"][name="Equipment"]').count(), CFG.rentals.length);
+    await r.context.close();
+  });
+});
+
 describe("accessibility (axe-core, WCAG 2.1 AA)", () => {
-  for (const [p, vp] of [["index.html", { width: 1440, height: 900 }], ["rentals.html", { width: 1440, height: 900 }], ["index.html", { width: 390, height: 844 }], ["rentals.html", { width: 390, height: 844 }]]) {
+  for (const [p, vp] of [["index.html", { width: 1440, height: 900 }], ["rentals.html", { width: 1440, height: 900 }], ["404.html", { width: 1440, height: 900 }], ["index.html", { width: 375, height: 667 }], ["rentals.html", { width: 375, height: 667 }], ["404.html", { width: 320, height: 640 }]]) {
     test(`${p} @ ${vp.width}px has no violations`, async () => {
       const { page, context } = await open(p, { viewport: vp, reducedMotion: "reduce" });
       await page.addScriptTag({ content: AXE_SRC });

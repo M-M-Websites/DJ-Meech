@@ -3,3 +3,5 @@ Allow: /
 
 # After choosing a domain, run: node scripts/set-domain.mjs https://your-domain.com
 # That script writes sitemap.xml and adds the Sitemap line below.
+
+Sitemap: https://m-m-websites.github.io/DJ-Meech/sitemap.xml
