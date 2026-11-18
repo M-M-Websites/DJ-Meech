@@ -132,6 +132,13 @@ html {
   scroll-padding-top: calc(var(--header-h) + var(--s-4));
 }
 
+/* Cross-page fade between index.html and rentals.html (progressive
+   enhancement: browsers without cross-document view transitions, and
+   reduced-motion users, get a normal page load). */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+}
+
 body {
   margin: 0;
   background: var(--ink-950);
