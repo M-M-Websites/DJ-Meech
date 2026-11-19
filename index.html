@@ -140,7 +140,8 @@
     <!-- ============ HERO ============ -->
     <section class="hero" id="top" aria-labelledby="hero-title">
       <div class="hero__media ph" style="--ph:#5a4541">
-        <video id="hero-video" autoplay muted loop playsinline preload="metadata" poster="assets/video/hero-poster.webp" width="960" height="450" aria-hidden="true" tabindex="-1">
+        <!-- No autoplay attribute: js/main.js starts playback, so reduced-motion and Save-Data visitors never download the video -->
+        <video id="hero-video" muted loop playsinline preload="metadata" poster="assets/video/hero-poster.webp" width="960" height="450" aria-hidden="true" tabindex="-1">
           <source src="assets/video/hero.webm" type="video/webm">
           <source src="assets/video/hero.mp4" type="video/mp4">
         </video>

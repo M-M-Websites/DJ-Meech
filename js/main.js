@@ -221,7 +221,9 @@
       btn.innerHTML = paused ? icon("i-play", "i-play") : icon("i-pause");
     };
     var tryPlay = function () { var p = video.play(); if (p && p.catch) p.catch(function () { render(); }); };
-    if (reduceMotion || saveData) { userPaused = true; video.removeAttribute("autoplay"); video.pause(); }
+    // Playback starts here rather than via an autoplay attribute, which would begin buffering
+    // the video before this script runs, even for visitors who never see it play.
+    if (reduceMotion || saveData) { userPaused = true; video.pause(); }
     video.addEventListener("play", render);
     video.addEventListener("pause", render);
     btn.addEventListener("click", function () {
@@ -236,7 +238,7 @@
           else if (!video.paused) video.pause();
         });
       }, { threshold: 0.05 }).observe(video);
-    }
+    } else if (!userPaused) tryPlay();
     document.addEventListener("visibilitychange", function () {
       if (document.hidden) video.pause();
       else if (!userPaused && inView) tryPlay();
