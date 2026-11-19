@@ -652,7 +652,7 @@ a.spec-card__row:hover { background: var(--line-1); color: var(--text-1); }
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: linear-gradient(90deg, var(--ink-950) 0%, var(--scrim-plum) 50%, var(--scrim-ink-soft) 100%), linear-gradient(180deg, transparent 60%, var(--ink-950) 100%);
+  background: linear-gradient(90deg, var(--ink-950) 0%, var(--scrim-plum) 50%, var(--page-hero-scrim-end, var(--scrim-ink-soft)) 100%), linear-gradient(180deg, transparent 60%, var(--ink-950) 100%);
 }
 .page-hero__inner { display: grid; justify-items: start; gap: var(--s-5); }
 .page-hero h1 { max-width: 14ch; font-size: var(--fs-4xl); font-stretch: 115%; }
@@ -1265,6 +1265,8 @@ body.has-call-bar .toasts { bottom: calc(var(--s-9) + env(safe-area-inset-bottom
   .hero h1 { font-stretch: 105%; }
   .hero__inner { gap: var(--s-6); padding-bottom: var(--s-8); }
   .hero .btn-row .btn { flex: 1 1 100%; }
+  /* text spans the full width here, so the photo's bright right side needs the stronger scrim (lead text kept 4.5:1) */
+  .page-hero { --page-hero-scrim-end: var(--scrim-ink); }
   .packages,
   .rent-grid,
   .rent-list,
