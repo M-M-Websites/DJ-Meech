@@ -31,6 +31,8 @@ Change it once and the price cards, estimator, rental estimate and form dropdown
 
 Prices are plain numbers: `1200`, not `"$1,200"`.
 
+[`llms.txt`](llms.txt) is a plain-text summary of the business for AI assistants. It repeats the packages, rental prices and contact details, so update it too when you change those in `js/config.js` (or add a service area).
+
 ### Adding a gallery photo
 
 1. Export the photo as WebP, about 1170px wide (and optionally a 640px copy for phones).

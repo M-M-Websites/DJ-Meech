@@ -1,0 +1,37 @@
+# DJ Meech
+
+> DJ Meech offers DJ booking for private events, birthdays, weddings and corporate events, plus audio and DJ equipment rentals (speakers, microphones, DJ controllers and lighting). DJ packages start at $300. Book or ask for a quote by phone at (901) 319-7461, by email at moorework321@gmail.com, or with the inquiry forms on the website.
+
+All prices on the site are estimated starting rates, not confirmed quotes. Final pricing depends on event details, duration, location, equipment requirements and availability. The website's forms send an inquiry only: they do not take payment, confirm a booking or reserve equipment. The site does not list a service area; include your event location in your inquiry so travel availability and costs can be discussed.
+
+## Pages
+
+- [Home](index.html): about DJ Meech, services, DJ packages, budget planner, gallery, FAQ, booking inquiry form and contact details
+- [Equipment rentals](rentals.html): rental catalog with daily starting rates, delivery and setup, and the rental inquiry form
+
+## DJ packages (estimated starting rates)
+
+- The Small Party: from $300, up to 2 hours of DJ performance. For smaller celebrations, birthday gatherings and intimate events.
+- The Signature Experience: from $600, up to 4 hours. For birthday parties, private celebrations and special occasions.
+- Corporate Experience: from $750, up to 4 hours. For professional gatherings, company celebrations and corporate events.
+- The Wedding Experience: from $1,200, up to 5 hours. Includes wedding music consultation and reception timeline coordination.
+- Additional DJ time: from $125 per hour.
+
+Custom quotes are available for large private events, corporate events, weddings, community events and custom audio requirements.
+
+## Equipment rentals (estimated daily starting rates)
+
+- Wireless Microphone System: from $50/day
+- Basic Event Lighting: from $75/day
+- Powered PA Speaker: from $85/day
+- DJ Controller: from $100/day
+- Dual Speaker Package: from $160/day
+- Complete PA System: from $250/day (2 PA speakers, speaker stands, audio mixer, microphone and required cables; final contents confirmed with the quote)
+- Delivery and setup: from $75, subject to availability, equipment requirements and event location. Pickup is also an option.
+
+Rental prices exclude potential taxes, delivery fees, setup charges and refundable deposits where applicable.
+
+## Contact
+
+- Phone: (901) 319-7461
+- Email: moorework321@gmail.com
