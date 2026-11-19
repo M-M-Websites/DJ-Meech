@@ -538,9 +538,15 @@ p { max-width: var(--measure); }
 .mobile-menu__contact a { display: inline-flex; align-items: center; gap: var(--s-2); min-height: var(--tap); color: var(--text-2); font-weight: 600; text-decoration: none; }
 .mobile-menu__contact svg { width: 16px; height: 16px; color: var(--violet-400); }
 
+/* tap-to-call next to the menu button on phones and tablets, visible from first paint */
+.header-call { display: none; margin-left: auto; }
+.header-call svg { color: var(--violet-400); }
+
 @media (max-width: 73.75em) {
   .main-nav, .header-actions { display: none; }
   .menu-toggle { display: grid; }
+  .header-call { display: inline-grid; }
+  .header-call + .menu-toggle { margin-left: 0; }
 }
 
 /* ==========================================================================
